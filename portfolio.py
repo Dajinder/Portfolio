@@ -391,7 +391,8 @@ with st.container():
         color_discrete_sequence=["#003087", "#FFC107", "#1E88E5", "#FF5722"],
         hover_data={"Company": True, "Start": "|%b %Y", "End": "|%b %Y"}
     )
-    fig.update_yaxes(autorange="reversed")
+    # fig.update_yaxes(autorange="reversed")
+    fig.update_yaxes()
     fig.update_layout(
         showlegend=False,
         height=300,
