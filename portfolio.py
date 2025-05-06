@@ -529,19 +529,148 @@ with st.container():
     st.markdown('</div><hr>', unsafe_allow_html=True)
 
 # Timeline Section
-with st.container():
-    st.markdown('<div id="timeline" class="py-8">', unsafe_allow_html=True)
-    st.title("Career Timeline")
-    timeline_data = [
-        {"id": 1, "content": "B.Tech, GGSIPU", "start": "2017-08-01", "group": "Education"},
-        {"id": 2, "content": "Business Analyst Intern, ZS", "start": "2020-12-01", "end": "2021-06-30", "group": "Work"},
-        {"id": 3, "content": "Data Engineer, ZS", "start": "2021-07-01", "end": "2023-01-31", "group": "Work"},
-        {"id": 4, "content": "Senior Data Engineer, ZS", "start": "2023-01-01", "end": "2023-11-30", "group": "Work"},
-        {"id": 5, "content": "Business Analyst, ZS", "start": "2023-12-01", "end": "2025-01-31", "group": "Work"},
-        {"id": 6, "content": "MAC, University of Windsor", "start": "2025-01-01", "group": "Education"}
-    ]
-    st_timeline(timeline_data, groups=[], options={}, height="300px")
-    st.markdown('</div><hr>', unsafe_allow_html=True)
+# with st.container():
+#     st.markdown('<div id="timeline" class="py-8">', unsafe_allow_html=True)
+#     st.title("Career Timeline")
+#     timeline_data = [
+#         {"id": 1, "content": "B.Tech, GGSIPU", "start": "2017-08-01", "group": "Education"},
+#         {"id": 2, "content": "Business Analyst Intern, ZS", "start": "2020-12-01", "end": "2021-06-30", "group": "Work"},
+#         {"id": 3, "content": "Data Engineer, ZS", "start": "2021-07-01", "end": "2023-01-31", "group": "Work"},
+#         {"id": 4, "content": "Senior Data Engineer, ZS", "start": "2023-01-01", "end": "2023-11-30", "group": "Work"},
+#         {"id": 5, "content": "Business Analyst, ZS", "start": "2023-12-01", "end": "2025-01-31", "group": "Work"},
+#         {"id": 6, "content": "MAC, University of Windsor", "start": "2025-01-01", "group": "Education"}
+#     ]
+#     st_timeline(timeline_data, groups=[], options={}, height="300px")
+#     st.markdown('</div><hr>', unsafe_allow_html=True)
+
+
+
+# import streamlit as st
+# from streamlit_timeline import st_timeline
+
+# Extended timeline data with descriptions
+timeline_data = [
+    {
+        "id": 1, "content": "B.Tech, GGSIPU", "start": "2017-08-01", "group": "Education",
+        "title": "Completed B.Tech in Information Technology from GGSIPU."
+    },
+    {
+        "id": 2, "content": "Business Analyst Intern, ZS", "start": "2020-12-01", "end": "2021-06-30", "group": "Work",
+        "title": "Worked as a Business Analyst Intern at ZS Associates focusing on data visualization."
+    },
+    {
+        "id": 3, "content": "Data Engineer, ZS", "start": "2021-07-01", "end": "2023-01-31", "group": "Work",
+        "title": "Data Engineer at ZS with responsibilities in ETL pipelines and big data infrastructure."
+    },
+    {
+        "id": 4, "content": "Senior Data Engineer, ZS", "start": "2023-01-01", "end": "2023-11-30", "group": "Work",
+        "title": "Promoted to Senior Data Engineer managing a team and overseeing cloud data solutions."
+    },
+    {
+        "id": 5, "content": "Business Analyst, ZS", "start": "2023-12-01", "end": "2025-01-31", "group": "Work",
+        "title": "Transitioned to a Business Analyst role to bridge business needs with technical solutions."
+    },
+    {
+        "id": 6, "content": "MAC, University of Windsor", "start": "2025-01-01", "group": "Education",
+        "title": "Master of Applied Computing at the University of Windsor."
+    }
+]
+
+# Timeline section
+# with st.container():
+#     st.markdown('<div id="timeline" class="py-8">', unsafe_allow_html=True)
+#     st.title("Career Timeline")
+    
+#     selected = st_timeline(timeline_data, groups=[], options={"clickToUse": True}, height="300px")
+
+#     # Display popover if an event is selected
+#     if selected and "id" in selected:
+#         selected_id = selected["id"]
+#         for item in timeline_data:
+#             if item["id"] == selected_id:
+#                 with st.popover(f"More about: {item['content']}"):
+#                     st.write(item["title"])
+#                 break
+
+#     st.markdown('</div><hr>', unsafe_allow_html=True)
+
+
+
+
+# import streamlit as st
+# from streamlit_timeline import st_timeline
+
+# 🔓 Enable dialog feature
+# st.enable('dialog')
+
+# Timeline data with detailed descriptions
+timeline_data = [
+    {
+        "id": 1, "content": "B.Tech, GGSIPU", "start": "2017-08-01", "group": "Education",
+        "title": "Completed B.Tech in Information Technology from GGSIPU."
+    },
+    {
+        "id": 2, "content": "Business Analyst Intern, ZS", "start": "2020-12-01", "end": "2021-06-30", "group": "Work",
+        "title": "Worked on dashboarding, data cleaning and client reporting as an intern."
+    },
+    {
+        "id": 3, "content": "Data Engineer, ZS", "start": "2021-07-01", "end": "2023-01-31", "group": "Work",
+        "title": "Built data pipelines, automated ETL processes and supported analytics teams."
+    },
+    {
+        "id": 4, "content": "Senior Data Engineer, ZS", "start": "2023-01-01", "end": "2023-11-30", "group": "Work",
+        "title": "Led projects and mentored junior engineers in cloud and data engineering."
+    },
+    {
+        "id": 5, "content": "Business Analyst, ZS", "start": "2023-12-01", "end": "2025-01-31", "group": "Work",
+        "title": "Shifted to a business-focused role handling strategy and stakeholder interactions."
+    },
+    {
+        "id": 6, "content": "MAC, University of Windsor", "start": "2025-01-01", "group": "Education",
+        "title": "Pursuing Master of Applied Computing to upskill in AI and ML."
+    }
+]
+
+
+# Session state defaults
+if "selected_event" not in st.session_state:
+    st.session_state.selected_event = None
+
+# Decorated dialog function
+@st.dialog("Timeline Event Details")
+def show_event_dialog(event):
+    st.subheader(event["content"])
+    st.write(event["title"])
+    st.write(f"**Start:** {event['start']}")
+    if "end" in event:
+        st.write(f"**End:** {event['end']}")
+
+    # if st.button("Close"):
+    #     st.session_state.selected_event = None
+    #     st.rerun()
+
+# Timeline display
+st.title("Career Timeline")
+selected = st_timeline(timeline_data, groups=[], options={"clickToUse": True}, height="300px")
+
+# Open dialog on click
+if selected and "id" in selected:
+    event = next((item for item in timeline_data if item["id"] == selected["id"]), None)
+    if event:
+        st.session_state.selected_event = event
+        show_event_dialog(event)
+
+# Show vote result (optional)
+if st.session_state.selected_event is None:
+    st.markdown("Click on a timeline item to view more details.")
+
+
+
+
+
+
+
+
 
 # Achievements Section
 with st.container():
