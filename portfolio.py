@@ -319,7 +319,7 @@ st.markdown(f"""
     <div class="nav-heading text-white font-bold text-lg">Dajinder</div>
     <div class="nav-links">
         <a href="#home">Home</a>
-        <a href="#experience">Professional Experience</a>
+        <a href="#experience">Career Timeline</a>
         <a href="#skills">Skills</a>
         <a href="#projects">Projects</a>
         <a href="#timeline">Timeline</a>
@@ -331,7 +331,7 @@ st.markdown(f"""
 
 <div id="menu" class="mobile-menu {'show' if st.session_state.menu_open else ''}">
     <a href="#home">Home</a>
-    <a href="#experience">Professional Experience</a>
+    <a href="#experience">Career Timeline</a>
     <a href="#skills">Skills</a>
     <a href="#projects">Projects</a>
     <a href="#timeline">Timeline</a>
@@ -374,106 +374,96 @@ with st.container():
     st.markdown('</div><hr>', unsafe_allow_html=True)
 
 
-# Experience Section
+
+# Timeline data with detailed descriptions
+timeline_data = [
+    {
+        "id": 1, "content": "B.Tech (Information Technology) , GGSIPU", "start": "Aug 2017", "end": "June 2021", "group": "Education",
+        "title": "Completed Bachelors of Technology in Information Technology from GGSIPU with GPA of 8 out of 10.",
+        "style": "background-color: #cce5ff; border: 2px solid #3399ff;"
+    },
+    {
+        "id": 2, "content": "Business Analyst Intern, ZS", "start": "Dec 2020",  "group": "Work",
+        "title": "Worked on development and testing of business requirement Qlik sense BI tools.",
+        "style": "background-color: #ffe5b4; border: 2px solid #ff9900;"
+    },
+    {
+        "id": 3, "content": "Business Technology Associate, ZS", "start": "Jun 2021",   "group": "Work",
+        "title": "Built data pipelines, automated ETL processes and supported analytics teams.",
+        "style": "background-color: #ffe5b4; border: 2px solid #ff9900;"
+    },
+    {
+        "id": 4, "content": "Business Technology Associate, ZS", "start": "Jan 2023",   "group": "Work",
+        "title": "Led projects and mentored junior engineers in cloud and data engineering.",
+        "style": "background-color: #ffe5b4; border: 2px solid #ff9900;"
+    },
+    {
+        "id": 5, "content": "Business Technology Associate Consultant, ZS", "start": "Dec 2023",  "group": "Work",
+        "title": "Shifted to a business-focused role handling strategy and stakeholder interactions.",
+        "style": "background-color: #ffe5b4; border: 2px solid #ff9900;"
+    },
+    {
+        "id": 6, "content": "Masters in Applied Computing, University of Windsor", "start": "2025-01-01", "group": "Education",
+        "title": "Pursuing Master of Applied Computing to upskill in AI and ML.",
+        "style": "background-color: #cce5ff; border: 2px solid #3399ff;"
+    }
+]
+
+
+# Session state defaults
+if "selected_event" not in st.session_state:
+    st.session_state.selected_event = None
+
+# Decorated dialog function
+@st.dialog("Timeline Event Details")
+def show_event_dialog(event):
+    st.write(event["content"])
+    st.write(event["title"])
+    st.write(f"**Start:** {event['start']}")
+    if "end" in event:
+        st.write(f"**End:** {event['end']}")
+
+
 with st.container():
     st.markdown('<div id="experience" class="py-8">', unsafe_allow_html=True)
-    st.title("Professional Experience")
+    # Timeline display
+    st.title("Career Timeline")
 
-    # Create Plotly Timeline
-    df_experience = pd.DataFrame(experience_data)
-    fig = px.timeline(
-        df_experience,
-        x_start="Start",
-        x_end="End",
-        y="Task",
-        color="Task",
-        title="Career Timeline",
-        color_discrete_sequence=["#003087", "#FFC107", "#1E88E5", "#FF5722"],
-        hover_data={"Company": True, "Start": "|%b %Y", "End": "|%b %Y"}
+
+    # Separate by group
+    education_items = [i for i in timeline_data if i["group"] == "Education"]
+    work_items = [i for i in timeline_data if i["group"] == "Work"]
+
+
+    # Work timeline
+    st.subheader("💼 Professional Timeline: ZS Associates PVT LTD.")
+    selected_work = st_timeline(
+        items=work_items,
+        groups=[],
+        options={"clickToUse": True},
+        height="200px"
     )
-    # fig.update_yaxes(autorange="reversed")
-    fig.update_yaxes()
-    fig.update_layout(
-        showlegend=False,
-        height=300,
-        clickmode="event+select",
-        xaxis_title="",
-        yaxis_title="",
-        margin=dict(t=50, b=50)
+
+    # Education timeline
+    st.subheader("🎓 Education Timeline")
+    selected_edu = st_timeline(
+        items=education_items,
+        groups=[],
+        options={"clickToUse": True},
+        height="150px"
     )
-    fig.update_traces(marker=dict(line=dict(color="#ffffff", width=2)))
-    st.plotly_chart(fig, use_container_width=True)
 
-    # Initialize session state
-    if "selected_role" not in st.session_state:
-        st.session_state.selected_role = "Business Technology Associate Consultant"
-    if "show_popup" not in st.session_state:
-        st.session_state.show_popup = False
 
-    # Hidden text input to capture clicked role
-    clicked_role = st.text_input("Clicked Role", value=st.session_state.selected_role, key="clicked_role", disabled=True)
-    if clicked_role and clicked_role != st.session_state.selected_role:
-        st.session_state.selected_role = clicked_role
-        st.session_state.show_popup = True
+    # Show dialog if item selected
+    if selected_edu and "id" in selected_edu:
+        event = next((e for e in education_items if e["id"] == selected_edu["id"]), None)
+        if event:
+            show_event_dialog(event)
 
-    # JavaScript to capture Plotly click and update text input
-    st.markdown("""
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var plot = document.getElementsByClassName('plotly')[0];
-        if (plot) {
-            plot.on('plotly_click', function(data) {
-                var role = data.points[0].y;
-                var input = document.querySelector('input[name="clicked_role"]');
-                if (input) {
-                    input.value = role;
-                    input.dispatchEvent(new Event('change', { bubbles: true }));
-                }
-            });
-        }
-    });
-    </script>
-    """, unsafe_allow_html=True)
-
-    # Modal (Popup) for role details
-    if st.session_state.show_popup:
-        role_data = next((role for role in experience_data if role["Task"] == st.session_state.selected_role), experience_data[0])
-        modal_html = """
-        <div class="modal-overlay" onclick="closeModal()"></div>
-        <div class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg z-50 w-11/12 max-w-lg">
-            <h3 class="text-xl font-semibold text-windsor-blue mb-2">{}</h3>
-            <p class="text-lg text-gray-700 mb-4">{} | {} - {}</p>
-            <ul class="list-disc pl-6 text-gray-700 mb-4">
-        """.format(
-            role_data["Task"],
-            role_data["Company"],
-            datetime.strptime(role_data["Start"], "%Y-%m-%d").strftime("%b %Y"),
-            datetime.strptime(role_data["End"], "%Y-%m-%d").strftime("%b %Y")
-        )
-        for detail in role_data["Details"]:
-            modal_html += f'<li>{detail}</li>'
-        modal_html += """
-            </ul>
-            <button class="bg-windsor-gold text-windsor-blue px-4 py-2 rounded hover:bg-yellow-500 transition-colors" onclick="closeModal()">Close</button>
-        </div>
-        <script>
-        function closeModal() {
-            var input = document.querySelector('input[name="show_popup"]');
-            if (input) {
-                input.value = 'False';
-                input.dispatchEvent(new Event('change', { bubbles: true }));
-            }
-        }
-        </script>
-        """
-        st.markdown(modal_html, unsafe_allow_html=True)
-
-        # Hidden input to capture modal close
-        show_popup = st.text_input("Show Popup", value=str(st.session_state.show_popup), key="show_popup", disabled=True)
-        if show_popup == "False":
-            st.session_state.show_popup = False
-
-    st.markdown('</div><hr>', unsafe_allow_html=True)
+    if selected_work and "id" in selected_work:
+        event = next((e for e in work_items if e["id"] == selected_work["id"]), None)
+        if event:
+            show_event_dialog(event)
 
 
 # Skills Section
@@ -528,141 +518,17 @@ with st.container():
         st.write("No recent activity found.")
     st.markdown('</div><hr>', unsafe_allow_html=True)
 
-# Timeline Section
-# with st.container():
-#     st.markdown('<div id="timeline" class="py-8">', unsafe_allow_html=True)
-#     st.title("Career Timeline")
-#     timeline_data = [
-#         {"id": 1, "content": "B.Tech, GGSIPU", "start": "2017-08-01", "group": "Education"},
-#         {"id": 2, "content": "Business Analyst Intern, ZS", "start": "2020-12-01", "end": "2021-06-30", "group": "Work"},
-#         {"id": 3, "content": "Data Engineer, ZS", "start": "2021-07-01", "end": "2023-01-31", "group": "Work"},
-#         {"id": 4, "content": "Senior Data Engineer, ZS", "start": "2023-01-01", "end": "2023-11-30", "group": "Work"},
-#         {"id": 5, "content": "Business Analyst, ZS", "start": "2023-12-01", "end": "2025-01-31", "group": "Work"},
-#         {"id": 6, "content": "MAC, University of Windsor", "start": "2025-01-01", "group": "Education"}
-#     ]
-#     st_timeline(timeline_data, groups=[], options={}, height="300px")
-#     st.markdown('</div><hr>', unsafe_allow_html=True)
-
-
-
-# import streamlit as st
-# from streamlit_timeline import st_timeline
-
-# Extended timeline data with descriptions
-timeline_data = [
-    {
-        "id": 1, "content": "B.Tech, GGSIPU", "start": "2017-08-01", "group": "Education",
-        "title": "Completed B.Tech in Information Technology from GGSIPU."
-    },
-    {
-        "id": 2, "content": "Business Analyst Intern, ZS", "start": "2020-12-01", "end": "2021-06-30", "group": "Work",
-        "title": "Worked as a Business Analyst Intern at ZS Associates focusing on data visualization."
-    },
-    {
-        "id": 3, "content": "Data Engineer, ZS", "start": "2021-07-01", "end": "2023-01-31", "group": "Work",
-        "title": "Data Engineer at ZS with responsibilities in ETL pipelines and big data infrastructure."
-    },
-    {
-        "id": 4, "content": "Senior Data Engineer, ZS", "start": "2023-01-01", "end": "2023-11-30", "group": "Work",
-        "title": "Promoted to Senior Data Engineer managing a team and overseeing cloud data solutions."
-    },
-    {
-        "id": 5, "content": "Business Analyst, ZS", "start": "2023-12-01", "end": "2025-01-31", "group": "Work",
-        "title": "Transitioned to a Business Analyst role to bridge business needs with technical solutions."
-    },
-    {
-        "id": 6, "content": "MAC, University of Windsor", "start": "2025-01-01", "group": "Education",
-        "title": "Master of Applied Computing at the University of Windsor."
-    }
-]
-
-# Timeline section
-# with st.container():
-#     st.markdown('<div id="timeline" class="py-8">', unsafe_allow_html=True)
-#     st.title("Career Timeline")
-    
-#     selected = st_timeline(timeline_data, groups=[], options={"clickToUse": True}, height="300px")
-
-#     # Display popover if an event is selected
-#     if selected and "id" in selected:
-#         selected_id = selected["id"]
-#         for item in timeline_data:
-#             if item["id"] == selected_id:
-#                 with st.popover(f"More about: {item['content']}"):
-#                     st.write(item["title"])
-#                 break
-
-#     st.markdown('</div><hr>', unsafe_allow_html=True)
 
 
 
 
-# import streamlit as st
-# from streamlit_timeline import st_timeline
 
-# 🔓 Enable dialog feature
-# st.enable('dialog')
+# -----------------------------------------------------------------------------------------------------------
 
-# Timeline data with detailed descriptions
-timeline_data = [
-    {
-        "id": 1, "content": "B.Tech, GGSIPU", "start": "2017-08-01", "group": "Education",
-        "title": "Completed B.Tech in Information Technology from GGSIPU."
-    },
-    {
-        "id": 2, "content": "Business Analyst Intern, ZS", "start": "2020-12-01", "end": "2021-06-30", "group": "Work",
-        "title": "Worked on dashboarding, data cleaning and client reporting as an intern."
-    },
-    {
-        "id": 3, "content": "Data Engineer, ZS", "start": "2021-07-01", "end": "2023-01-31", "group": "Work",
-        "title": "Built data pipelines, automated ETL processes and supported analytics teams."
-    },
-    {
-        "id": 4, "content": "Senior Data Engineer, ZS", "start": "2023-01-01", "end": "2023-11-30", "group": "Work",
-        "title": "Led projects and mentored junior engineers in cloud and data engineering."
-    },
-    {
-        "id": 5, "content": "Business Analyst, ZS", "start": "2023-12-01", "end": "2025-01-31", "group": "Work",
-        "title": "Shifted to a business-focused role handling strategy and stakeholder interactions."
-    },
-    {
-        "id": 6, "content": "MAC, University of Windsor", "start": "2025-01-01", "group": "Education",
-        "title": "Pursuing Master of Applied Computing to upskill in AI and ML."
-    }
-]
-
-
-# Session state defaults
-if "selected_event" not in st.session_state:
-    st.session_state.selected_event = None
-
-# Decorated dialog function
-@st.dialog("Timeline Event Details")
-def show_event_dialog(event):
-    st.subheader(event["content"])
-    st.write(event["title"])
-    st.write(f"**Start:** {event['start']}")
-    if "end" in event:
-        st.write(f"**End:** {event['end']}")
-
-    # if st.button("Close"):
-    #     st.session_state.selected_event = None
-    #     st.rerun()
-
-# Timeline display
-st.title("Career Timeline")
-selected = st_timeline(timeline_data, groups=[], options={"clickToUse": True}, height="300px")
-
-# Open dialog on click
-if selected and "id" in selected:
-    event = next((item for item in timeline_data if item["id"] == selected["id"]), None)
-    if event:
-        st.session_state.selected_event = event
-        show_event_dialog(event)
 
 # Show vote result (optional)
-if st.session_state.selected_event is None:
-    st.markdown("Click on a timeline item to view more details.")
+# if st.session_state.selected_event is None:
+#     st.markdown("Click on a timeline item to view more details.")
 
 
 
