@@ -145,95 +145,7 @@ def get_github_data(username):
     except:
         return pd.DataFrame({"Type": ["N/A"], "Repo": ["N/A"], "Date": ["N/A"]})
 
-# Responsive Navigation Bar with Hamburger Menu
 
-# with st.container():
-
-#     st.markdown('<div class="nav-bar">', unsafe_allow_html=True)
-#     cols = st.columns(6)
-#     sections = ["Home", "Skills", "Projects", "Timeline", "Achievements", "Blog"]
-#     for col, section in zip(cols, sections):
-#         with col:
-#             # JavaScript for smooth scrolling
-#             st.markdown(
-#                 f'<a href="#{section.lower()}" class="nav-button" onclick="document.getElementById(\'{section.lower()}\').scrollIntoView({{behavior: \'smooth\'}});">{section}</a>',
-#                 unsafe_allow_html=True
-#             )
-#     st.markdown('</div>', unsafe_allow_html=True)
-
-
-
-# with st.container():
-#     st.markdown("""
-#     <div class="flex items-center justify-between px-4 py-2 bg-windsor-blue text-white sticky top-0 z-50">
-#         <div class="text-lg font-bold">Dajinder</div>
-#         <button class="md:hidden" onclick="toggleMenu()">
-#             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-#                 stroke="currentColor">
-#                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-#                     d="M4 6h16M4 12h16M4 18h16" />
-#             </svg>
-#         </button>
-#         <div id="navLinks" class="hidden md:flex space-x-4">
-#             <a href="#home" class="hover:text-windsor-gold" onclick="scrollToSection('home')">Home</a>
-#             <a href="#skills" class="hover:text-windsor-gold" onclick="scrollToSection('skills')">Skills</a>
-#             <a href="#projects" class="hover:text-windsor-gold" onclick="scrollToSection('projects')">Projects</a>
-#             <a href="#timeline" class="hover:text-windsor-gold" onclick="scrollToSection('timeline')">Timeline</a>
-#             <a href="#achievements" class="hover:text-windsor-gold" onclick="scrollToSection('achievements')">Achievements</a>
-#             <a href="#blog" class="hover:text-windsor-gold" onclick="scrollToSection('blog')">Blog</a>
-#         </div>
-#     </div>
-#     <script>
-#         function toggleMenu() {
-#             var menu = document.getElementById("navLinks");
-#             if (menu.classList.contains("hidden")) {
-#                 menu.classList.remove("hidden");
-#                 menu.classList.add("flex", "flex-col", "space-y-2", "mt-2");
-#             } else {
-#                 menu.classList.add("hidden");
-#                 menu.classList.remove("flex", "flex-col", "space-y-2", "mt-2");
-#             }
-#         }
-
-#         function scrollToSection(id) {
-#             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-#         }
-#     </script>
-#     """, unsafe_allow_html=True)
-
-
-# --- Responsive Navbar using Streamlit toggle ---
-# if 'menu_visible' not in st.session_state:
-#     st.session_state.menu_visible = False
-
-# def toggle_menu():
-#     st.session_state.menu_visible = not st.session_state.menu_visible
-
-# with st.container():
-#     st.markdown('<div class="flex items-center justify-between px-4 py-2 bg-windsor-blue text-white sticky top-0 z-50">', unsafe_allow_html=True)
-#     col1, col2 = st.columns([8, 1])
-#     with col1:
-#         st.markdown('<div class="text-lg font-bold">Dajinder</div>', unsafe_allow_html=True)
-#     with col2:
-#         st.button("☰", on_click=toggle_menu, key="hamburger")
-
-#     if st.session_state.menu_visible:
-#         st.markdown("""
-#             <div class="flex flex-col space-y-2 mt-2 text-white">
-#                 <a href="#home" class="hover:text-windsor-gold">Home</a>
-#                 <a href="#skills" class="hover:text-windsor-gold">Skills</a>
-#                 <a href="#projects" class="hover:text-windsor-gold">Projects</a>
-#                 <a href="#timeline" class="hover:text-windsor-gold">Timeline</a>
-#                 <a href="#achievements" class="hover:text-windsor-gold">Achievements</a>
-#                 <a href="#blog" class="hover:text-windsor-gold">Blog</a>
-#             </div>
-#         """, unsafe_allow_html=True)
-
-#     st.markdown("</div>", unsafe_allow_html=True)
-
-
-
-# import streamlit as st
 
 # Custom CSS to manage responsive styles
 st.markdown("""
@@ -384,22 +296,29 @@ timeline_data = [
     },
     {
         "id": 2, "content": "Business Analyst Intern, ZS", "start": "Dec 2020",  "group": "Work",
-        "title": "Worked on development and testing of business requirement Qlik sense BI tools.",
+        "title": "Created and managed reports using Qlik Sense for Sales and Field Force data of Pharma Clients. Delivered weekly development and operational reports to clients."
+                 "Performed quality analysis of data with SQL and Excel.",
         "style": "background-color: #ffe5b4; border: 2px solid #ff9900;"
     },
     {
         "id": 3, "content": "Business Technology Associate, ZS", "start": "Jun 2021",   "group": "Work",
-        "title": "Built data pipelines, automated ETL processes and supported analytics teams.",
+        "title": "Performed Development, Testing and Deployment of reports on Qlik Sense and Salesforce. Facilitated transition of reports from Qlik Sense to Salesforce CRM Platform."
+                 "Conducted data quality analysis and documentation such as Requirement Gathering, BRD, FRS etc.",
         "style": "background-color: #ffe5b4; border: 2px solid #ff9900;"
     },
     {
         "id": 4, "content": "Business Technology Associate, ZS", "start": "Jan 2023",   "group": "Work",
-        "title": "Led projects and mentored junior engineers in cloud and data engineering.",
+        "title": "Designed and optimized data pipelines for Incentive Compensation data for Sales using Informatica (IICS) and Snowflake. Automated triggers with Autosys and shell scripts."
+                 "Reduced process runtime from 8 hours to 2.5 hours, enhancing overall efficiency."
+                 "Managed deployment of data pipelines, tables and other dependencies between environments using Windchill tool.",
         "style": "background-color: #ffe5b4; border: 2px solid #ff9900;"
     },
     {
         "id": 5, "content": "Business Technology Associate Consultant, ZS", "start": "Dec 2023",  "group": "Work",
-        "title": "Shifted to a business-focused role handling strategy and stakeholder interactions.",
+        "title": "Led business analysis for requirement gathering, documentation, testing, and project delivery for Pricing project of major pharmaceutical clients."
+                 "Authored User Requirement Specifications (URS), Functional Requirement Specifications (FRS), and User Acceptance Testing (UAT) documentation."
+                 "Implemented Agile methodology using JIRA, resulting in a 40% increase in project efficiency."
+                 "Promoted to Business Technology Associate Consultant Role",
         "style": "background-color: #ffe5b4; border: 2px solid #ff9900;"
     },
     {
@@ -410,18 +329,37 @@ timeline_data = [
 ]
 
 
-# Session state defaults
-if "selected_event" not in st.session_state:
-    st.session_state.selected_event = None
+# Initialize session state
+if "selected_edu_event" not in st.session_state:
+    st.session_state.selected_edu_event = None
+if "selected_work_event" not in st.session_state:
+    st.session_state.selected_work_event = None
 
-# Decorated dialog function
-@st.dialog("Timeline Event Details")
-def show_event_dialog(event):
+# Dialog for Education
+@st.dialog("🎓 Education Details")
+def show_education_dialog():
+    event = st.session_state.selected_edu_event
     st.write(event["content"])
     st.write(event["title"])
     st.write(f"**Start:** {event['start']}")
     if "end" in event:
         st.write(f"**End:** {event['end']}")
+    # if st.button("Close"):
+    #     st.session_state.selected_edu_event = None
+    #     st.rerun()
+
+# Dialog for Work
+@st.dialog("💼 Work Details")
+def show_work_dialog():
+    event = st.session_state.selected_work_event
+    st.write(event["content"])
+    st.write(event["title"])
+    st.write(f"**Start:** {event['start']}")
+    if "end" in event:
+        st.write(f"**End:** {event['end']}")
+    # if st.button("Close"):
+    #     st.session_state.selected_work_event = None
+    #     st.rerun()
 
 
 with st.container():
@@ -434,6 +372,7 @@ with st.container():
     education_items = [i for i in timeline_data if i["group"] == "Education"]
     work_items = [i for i in timeline_data if i["group"] == "Work"]
 
+    
 
     # Work timeline
     st.subheader("💼 Professional Timeline: ZS Associates PVT LTD.")
@@ -443,6 +382,7 @@ with st.container():
         options={"clickToUse": True},
         height="200px"
     )
+    
 
     # Education timeline
     st.subheader("🎓 Education Timeline")
@@ -458,12 +398,18 @@ with st.container():
     if selected_edu and "id" in selected_edu:
         event = next((e for e in education_items if e["id"] == selected_edu["id"]), None)
         if event:
-            show_event_dialog(event)
+            st.session_state.selected_edu_event = event
+            show_education_dialog()
 
-    if selected_work and "id" in selected_work:
+    elif selected_work and "id" in selected_work:
         event = next((e for e in work_items if e["id"] == selected_work["id"]), None)
         if event:
-            show_event_dialog(event)
+            st.session_state.selected_work_event = event
+            show_work_dialog()
+
+    # Show dialog if an event is selected
+    # if st.session_state.dialog_event:
+    #     show_event_dialog()
 
 
 # Skills Section
