@@ -54,7 +54,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-
 # Resume-based data
 skills_data = {
     "Category": ["Data Analysis", "Data Analysis", "Tools", "Tools", "Tools", "Tools", "Database", "Database", "Programming", "Programming", "Project Management"],
