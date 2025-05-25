@@ -451,8 +451,6 @@ with st.container():
 
 #==============================================
 
-
-
 # Skills Section
 with st.container():
     st.markdown('<div id="skills" class="py-8">', unsafe_allow_html=True)
@@ -467,63 +465,184 @@ with st.container():
     st.markdown('<p class="text-center text-gray-600 mt-4">Click skills for details on projects and tools used.</p>', unsafe_allow_html=True)
     st.markdown('</div><hr>', unsafe_allow_html=True)
 
-#===========================================================
-
-# Sample skill data
-import streamlit as st
-import plotly.graph_objects as go
-
-# Skill Data
-skills = {
-    "Python": 90,
-    "JavaScript": 85,
-    "React": 80,
-    "Tailwind": 75,
-    "Machine Learning": 70,
-    "SQL": 65
-}
-labels = list(skills.keys())
-values = list(skills.values())
-values += values[:1]
-labels += labels[:1]
-
-# Radar Chart
-fig = go.Figure()
-
-fig.add_trace(go.Scatterpolar(
-    r=values,
-    theta=labels,
-    fill='toself',
-    name='Your Skills',
-    line_color='rgba(0,123,255,1)',
-    fillcolor='rgba(0,123,255,0.3)',
-    hoverinfo='r+theta'
-))
-
-# Layout Styling
-fig.update_layout(
-    polar=dict(
-        bgcolor='white',
-        radialaxis=dict(
-            visible=True,
-            range=[0, 100],
-            gridcolor='lightgray',
-            tickfont=dict(size=12, color='gray')
-        ),
-        angularaxis=dict(
-            tickfont=dict(size=13, color='black')
-        )
-    ),
-    showlegend=False,
-    margin=dict(t=30, b=30)
-)
-
-st.title("🧠 Skill Radar Chart")
-st.plotly_chart(fig, use_container_width=True)
-
-
 
 #=========================================================
+
+# import streamlit as st
+# import plotly.graph_objects as go
+
+# st.set_page_config(page_title="Interactive Skills", layout="wide")
+
+# st.title("🚀 Interactive Skills Dashboard")
+
+# --- Skill Categories, Tools, Descriptions & Proficiency Scores ---
+
+with st.container():
+    st.markdown('<div id="skill" class="py-8">', unsafe_allow_html=True)
+    st.title("Skills Radar")
+    skills = {
+        "Data Analysis": {
+            "Excel (Advanced)": (90, "Advanced spreadsheet analytics & visualization"),
+            "Palantir Foundry (Contour)": (85, "Big data integration and transformation"),
+            "Qlik Sense": (80, "BI dashboard development and analysis")
+        },
+        "Tools & Tech": {
+            "Palantir Foundry": (85, "Collaborative data ecosystem"),
+            "IICS(Cloud)": (75, "Cloud data integration"),
+            "Qlik Sense": (80, "Self-service BI"),
+            "Salesforce": (70, "CRM workflows"),
+            "Streamlit": (85, "Python web apps"),
+            "Autosys": (60, "Job automation"),
+            "Windchill": (55, "Product lifecycle management")
+        },
+        "Database": {
+            "Teradata": (75, "Enterprise data warehouse"),
+            "Snowflake": (80, "Cloud-native DB"),
+            "Oracle": (70, "Relational DBMS"),
+            "MySQL": (65, "Open-source SQL DB")
+        },
+        "Programming": {
+            "Python": (90, "Scripting, automation, and data science"),
+            "Java": (80, "Object-oriented programming"),
+            "Shell Script": (70, "Linux automation")
+        },
+        "Project Mgmt": {
+            "JIRA": (65, "Agile project tracking")
+        }
+    }
+
+    # --- Category Selector ---
+    category = st.selectbox("🧩 Select a Skill Category", list(skills.keys()))
+
+    # --- Extract tools, scores, descriptions ---
+    tools = list(skills[category].keys())
+    scores = [skills[category][tool][0] for tool in tools]
+    descriptions = [skills[category][tool][1] for tool in tools]
+
+    # --- Radar Chart Setup ---
+    st.subheader(f"📊 {category} Proficiency")
+
+    # Loop back to the first value for closure
+    tools += [tools[0]]
+    scores += [scores[0]]
+
+    fig = go.Figure(
+        data=[
+            go.Scatterpolar(
+                r=scores,
+                theta=tools,
+                fill='toself',
+                name=category,
+                line=dict(color="#3bf683"),
+                hoverinfo='text',
+                text=[f"{t}: {s}%" for t, s in zip(tools, scores)]
+            )
+        ],
+        layout=go.Layout(
+            polar=dict(radialaxis=dict(visible=True, range=[0, 100])),
+            showlegend=False,
+            margin=dict(l=5, r=5, t=50, b=50)
+        )
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
+
+
+
+
+
+
+
+
+
+# import streamlit as st
+# import plotly.graph_objects as go
+
+# st.set_page_config(page_title="Interactive Skills", layout="wide")
+
+# st.title("🧠 Skill Proficiency Radar")
+
+# --- Skill Data ---
+# skills_data = {
+#     "Programming": {
+#         "Python": 9,
+#         "Java": 8,
+#         "C++": 6,
+#         "JavaScript": 7,
+#         "SQL": 7
+#     },
+#     "Frameworks": {
+#         "Streamlit": 9,
+#         "React": 6,
+#         "Django": 7,
+#         "Spring": 6,
+#         "Node.js": 5
+#     },
+#     "Tools": {
+#         "Git": 9,
+#         "Docker": 7,
+#         "Linux": 8,
+#         "JIRA": 7,
+#         "VS Code": 9
+#     },
+#     "Machine Learning": {
+#         "Pandas": 9,
+#         "Scikit-learn": 8,
+#         "TensorFlow": 7,
+#         "OpenCV": 6,
+#         "Numpy": 9
+#     }
+# }
+
+# # --- State ---
+# if "selected_category" not in st.session_state:
+#     st.session_state.selected_category = "Programming"
+
+# # --- Category Buttons ---
+# st.markdown("### 📂 Choose a Skill Category:")
+# col1, col2, col3, col4 = st.columns(4)
+# categories = list(skills_data.keys())
+
+# with col1:
+#     if st.button("Programming"):
+#         st.session_state.selected_category = "Programming"
+# with col2:
+#     if st.button("Frameworks"):
+#         st.session_state.selected_category = "Frameworks"
+# with col3:
+#     if st.button("Tools"):
+#         st.session_state.selected_category = "Tools"
+# with col4:
+#     if st.button("Machine Learning"):
+#         st.session_state.selected_category = "Machine Learning"
+
+# # --- Radar Chart ---
+# category = st.session_state.selected_category
+# labels = list(skills_data[category].keys())
+# scores = list(skills_data[category].values())
+
+# fig = go.Figure(
+#     data=go.Scatterpolar(
+#         r=scores + [scores[0]],  # close the loop
+#         theta=labels + [labels[0]],
+#         fill='toself',
+#         line_color="royalblue"
+#     )
+# )
+# fig.update_layout(
+#     polar=dict(
+#         radialaxis=dict(visible=True, range=[0, 10])
+#     ),
+#     showlegend=False,
+#     title=f"{category} Proficiency"
+# )
+
+# st.plotly_chart(fig, use_container_width=True)
+
+
+
+#============================================================
+
 
 
 
