@@ -5,6 +5,10 @@ import requests
 from datetime import datetime
 from streamlit_timeline import st_timeline
 import os
+from datetime import date
+
+import plotly.graph_objects as go
+
 
 # Set page config
 st.set_page_config(page_title="Dajinder | Data-Driven Portfolio", layout="wide", page_icon="📊")
@@ -294,26 +298,26 @@ timeline_data = [
         "style": "background-color: #cce5ff; border: 2px solid #3399ff;"
     },
     {
-        "id": 2, "content": "Business Analyst Intern, ZS", "start": "Dec 2020",  "group": "Work",
+        "id": 2, "content": "Business Analyst Intern, ZS", "start": "Dec 2020", "end": "May 2021", "group": "Work",
         "title": "Created and managed reports using Qlik Sense for Sales and Field Force data of Pharma Clients. Delivered weekly development and operational reports to clients."
                  "Performed quality analysis of data with SQL and Excel.",
         "style": "background-color: #ffe5b4; border: 2px solid #ff9900;"
     },
     {
-        "id": 3, "content": "Business Technology Associate, ZS", "start": "Jun 2021",   "group": "Work",
+        "id": 3, "content": "Business Technology Associate, ZS", "start": "Jun 2021", "end": "Dec 2022",  "group": "Work",
         "title": "Performed Development, Testing and Deployment of reports on Qlik Sense and Salesforce. Facilitated transition of reports from Qlik Sense to Salesforce CRM Platform."
                  "Conducted data quality analysis and documentation such as Requirement Gathering, BRD, FRS etc.",
         "style": "background-color: #ffe5b4; border: 2px solid #ff9900;"
     },
     {
-        "id": 4, "content": "Business Technology Associate, ZS", "start": "Jan 2023",   "group": "Work",
+        "id": 4, "content": "Business Technology Associate, ZS", "start": "Jan 2023",  "end": "Nov 2023", "group": "Work",
         "title": "Designed and optimized data pipelines for Incentive Compensation data for Sales using Informatica (IICS) and Snowflake. Automated triggers with Autosys and shell scripts."
                  "Reduced process runtime from 8 hours to 2.5 hours, enhancing overall efficiency."
                  "Managed deployment of data pipelines, tables and other dependencies between environments using Windchill tool.",
         "style": "background-color: #ffe5b4; border: 2px solid #ff9900;"
     },
     {
-        "id": 5, "content": "Business Technology Associate Consultant, ZS", "start": "Dec 2023",  "group": "Work",
+        "id": 5, "content": "Business Technology Associate Consultant, ZS", "start": "Dec 2023", "end":"Jan 2025",  "group": "Work",
         "title": "Led business analysis for requirement gathering, documentation, testing, and project delivery for Pricing project of major pharmaceutical clients."
                  "Authored User Requirement Specifications (URS), Functional Requirement Specifications (FRS), and User Acceptance Testing (UAT) documentation."
                  "Implemented Agile methodology using JIRA, resulting in a 40% increase in project efficiency."
@@ -321,7 +325,7 @@ timeline_data = [
         "style": "background-color: #ffe5b4; border: 2px solid #ff9900;"
     },
     {
-        "id": 6, "content": "Masters in Applied Computing, University of Windsor", "start": "2025-01-01", "group": "Education",
+        "id": 6, "content": "Masters in Applied Computing, University of Windsor", "start": "2025-01-01", "end": "2026-06-01", "group": "Education",
         "title": "Pursuing Master of Applied Computing to upskill in AI and ML.",
         "style": "background-color: #cce5ff; border: 2px solid #3399ff;"
     }
@@ -411,6 +415,44 @@ with st.container():
     #     show_event_dialog()
 
 
+#===============================================
+
+# st.markdown('<div id="timeline" class="py-8">', unsafe_allow_html=True)
+# st.subheader("📆 Career & Education Timeline")
+
+# st.markdown("""
+# <style>
+#     .timeline-wrapper {
+#         overflow-x: auto;
+#         -webkit-overflow-scrolling: touch;
+#     }
+#     .timeline-wrapper > iframe {
+#         width: 100% !important;
+#         min-width: 600px;
+#         max-width: 100%;
+#     }
+
+#     @media (max-width: 768px) {
+#         .timeline-wrapper > iframe {
+#             min-width: 100% !important;
+#             height: 500px !important;
+#         }
+#     }
+# </style>
+# <div class="timeline-wrapper">
+# """, unsafe_allow_html=True)
+
+# st_timeline(timeline_data, groups=[{"id": "Education", "content": "Education"}, {"id": "Work", "content": "Work"}])
+
+# st.markdown("</div>", unsafe_allow_html=True)
+
+
+
+
+#==============================================
+
+
+
 # Skills Section
 with st.container():
     st.markdown('<div id="skills" class="py-8">', unsafe_allow_html=True)
@@ -424,6 +466,66 @@ with st.container():
     st.plotly_chart(fig, use_container_width=True)
     st.markdown('<p class="text-center text-gray-600 mt-4">Click skills for details on projects and tools used.</p>', unsafe_allow_html=True)
     st.markdown('</div><hr>', unsafe_allow_html=True)
+
+#===========================================================
+
+# Sample skill data
+import streamlit as st
+import plotly.graph_objects as go
+
+# Skill Data
+skills = {
+    "Python": 90,
+    "JavaScript": 85,
+    "React": 80,
+    "Tailwind": 75,
+    "Machine Learning": 70,
+    "SQL": 65
+}
+labels = list(skills.keys())
+values = list(skills.values())
+values += values[:1]
+labels += labels[:1]
+
+# Radar Chart
+fig = go.Figure()
+
+fig.add_trace(go.Scatterpolar(
+    r=values,
+    theta=labels,
+    fill='toself',
+    name='Your Skills',
+    line_color='rgba(0,123,255,1)',
+    fillcolor='rgba(0,123,255,0.3)',
+    hoverinfo='r+theta'
+))
+
+# Layout Styling
+fig.update_layout(
+    polar=dict(
+        bgcolor='white',
+        radialaxis=dict(
+            visible=True,
+            range=[0, 100],
+            gridcolor='lightgray',
+            tickfont=dict(size=12, color='gray')
+        ),
+        angularaxis=dict(
+            tickfont=dict(size=13, color='black')
+        )
+    ),
+    showlegend=False,
+    margin=dict(t=30, b=30)
+)
+
+st.title("🧠 Skill Radar Chart")
+st.plotly_chart(fig, use_container_width=True)
+
+
+
+#=========================================================
+
+
 
 # Projects Section
 with st.container():
@@ -469,17 +571,6 @@ with st.container():
 
 
 # -----------------------------------------------------------------------------------------------------------
-
-
-# Show vote result (optional)
-# if st.session_state.selected_event is None:
-#     st.markdown("Click on a timeline item to view more details.")
-
-
-
-
-
-
 
 
 
