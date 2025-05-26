@@ -481,11 +481,6 @@ with st.container():
     st.markdown('<div id="skill" class="py-8">', unsafe_allow_html=True)
     st.title("Skills Radar")
     skills = {
-        "Data Analysis": {
-            "Excel (Advanced)": (90, "Advanced spreadsheet analytics & visualization"),
-            "Palantir Foundry (Contour)": (85, "Big data integration and transformation"),
-            "Qlik Sense": (80, "BI dashboard development and analysis")
-        },
         "Tools & Tech": {
             "Palantir Foundry": (85, "Collaborative data ecosystem"),
             "IICS(Cloud)": (75, "Cloud data integration"),
@@ -494,6 +489,11 @@ with st.container():
             "Streamlit": (85, "Python web apps"),
             "Autosys": (60, "Job automation"),
             "Windchill": (55, "Product lifecycle management")
+        },
+        "Data Analysis": {
+            "Excel (Advanced)": (90, "Advanced spreadsheet analytics & visualization"),
+            "Palantir Foundry (Contour)": (85, "Big data integration and transformation"),
+            "Qlik Sense": (80, "BI dashboard development and analysis")
         },
         "Database": {
             "Teradata": (75, "Enterprise data warehouse"),
@@ -510,6 +510,9 @@ with st.container():
             "JIRA": (65, "Agile project tracking")
         }
     }
+
+    if st.button("🔄 Reset to Default"):
+        st.session_state.selected_category = "Programming"
 
     # --- Category Selector ---
     category = st.selectbox("🧩 Select a Skill Category", list(skills.keys()))
@@ -545,12 +548,6 @@ with st.container():
         )
     )
     st.plotly_chart(fig, use_container_width=True)
-
-
-
-
-
-
 
 
 
@@ -684,6 +681,88 @@ with st.container():
         st.write("No recent activity found.")
     st.markdown('</div><hr>', unsafe_allow_html=True)
 
+#===========================================================================================
+
+
+def get_github_data(username):
+    try:
+        events_url = f"https://api.github.com/users/{username}/events/public"
+        response = requests.get(events_url)
+        if response.status_code != 200:
+            return pd.DataFrame()
+        events = response.json()
+        recent_repos = []
+        for e in events:
+            if "repo" in e:
+                recent_repos.append({
+                    "Repo": e["repo"]["name"],
+                    "Type": e["type"],
+                    "Date": e["created_at"][:10]
+                })
+        return pd.DataFrame(recent_repos[:5])
+    except:
+        return pd.DataFrame()
+
+# Projects Section
+with st.container():
+    st.markdown('<div id="projects" class="py-8">', unsafe_allow_html=True)
+    st.title("🚧 Project Impact & GitHub Activity")
+
+    df_projects = pd.DataFrame(project_data)
+    col1, col2 = st.columns([1, 1], gap="medium")
+
+    with col1:
+        st.markdown("### 📊 Key Metrics")
+        fig_bar = px.bar(df_projects, x="Project", y="Metric", color="Project", 
+                         color_discrete_sequence=["#003087", "#FFC107", "#1E88E5"])
+        st.plotly_chart(fig_bar, use_container_width=True)
+
+    with col2:
+        st.markdown("### ⏳ Timeline of Impact")
+        fig_line = px.line(df_projects, x="Year", y="Metric", color="Project", 
+                           markers=True, color_discrete_sequence=["#1E88E5", "#FFC107", "#003087"])
+        st.plotly_chart(fig_line, use_container_width=True)
+
+    st.markdown("""
+    <div class="text-gray-700 mt-4">
+        <ul class="list-disc pl-6">
+            <li><strong>Agile Adoption</strong>: Boosted efficiency by 40% using JIRA.</li>
+            <li><strong>Pipeline Optimization</strong>: Cut runtime by 5.5 hours with Snowflake.</li>
+            <li><strong>Qlik-to-Salesforce</strong>: Transitioned 100+ reports seamlessly.</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.divider()
+
+    st.subheader("🔍 Recent GitHub Repositories")
+    with st.spinner("Fetching latest GitHub repos..."):
+        github_data = get_github_data("Dajinder")
+
+    if not github_data.empty:
+        for _, row in github_data.iterrows():
+            repo_name = row["Repo"].split("/")[1] if "/" in row["Repo"] else row["Repo"]
+            with st.container():
+                st.markdown(f"""
+                <div style='border:1px solid #E5E7EB; padding:12px; border-radius:12px; margin:8px 0;'>
+                    <strong style='font-size:16px; color:#1E3A8A;'>{repo_name}</strong><br>
+                    <small>📦 Repo: <a href='https://github.com/{row['Repo']}' target='_blank'>{row['Repo']}</a></small><br>
+                    <small>🗓️ Event: {row['Type']} — {row['Date']}</small>
+                </div>
+                """, unsafe_allow_html=True)
+
+        fig_github = px.histogram(
+            github_data,
+            x="Date",
+            color="Type",
+            title="🗂️ GitHub Activity Timeline",
+            color_discrete_sequence=["#003087", "#FFC107", "#1E88E5"]
+        )
+        st.plotly_chart(fig_github, use_container_width=True)
+    else:
+        st.warning("No recent GitHub activity found.")
+
+    st.markdown('</div><hr>', unsafe_allow_html=True)
 
 
 
