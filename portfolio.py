@@ -751,14 +751,14 @@ with st.container():
                 </div>
                 """, unsafe_allow_html=True)
 
-        fig_github = px.histogram(
-            github_data,
-            x="Date",
-            color="Type",
-            title="🗂️ GitHub Activity Timeline",
-            color_discrete_sequence=["#003087", "#FFC107", "#1E88E5"]
-        )
-        st.plotly_chart(fig_github, use_container_width=True)
+        # fig_github = px.histogram(
+        #     github_data,
+        #     x="Date",
+        #     color="Type",
+        #     title="🗂️ GitHub Activity Timeline",
+        #     color_discrete_sequence=["#003087", "#FFC107", "#1E88E5"]
+        # )
+        # st.plotly_chart(fig_github, use_container_width=True)
     else:
         st.warning("No recent GitHub activity found.")
 
