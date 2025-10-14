@@ -8,6 +8,7 @@ beautifulsoup4
 altair
 matplotlib
 seaborn
+setuptools
 streamlit-vis-timeline
 streamlit-pdf
 pdfplumber
