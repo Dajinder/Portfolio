@@ -14,7 +14,7 @@ def render():
         
         col1, col2 = st.columns([1, 1], gap="medium")
         with col1:
-            st.image("C:/Users/singh/Downloads/Profile_Image_cp.png", caption="Your Photo", width=500)
+            st.image("utils/docs/Profile_Image_cp.png", caption="Your Photo", width=500)
         with col2:
             # st.markdown("""
             # <div class="bg-white p-4 rounded-lg shadow-lg">
@@ -23,7 +23,7 @@ def render():
             # </div>
             # """, unsafe_allow_html=True)
             
-            resume_path = "C:/UWindsor/Co-op/ZS/Dajinder_Singh_Resume.pdf"
+            resume_path = "utils/docs/Dajinder_Singh_Resume.pdf"
             if os.path.exists(resume_path):
                 
                 # Read and encode the PDF for preview
