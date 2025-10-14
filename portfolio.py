@@ -1,5 +1,6 @@
 import streamlit as st
-from components import navbar, home, timeline, skills, projects, achievements, blog
+# from components import navbar, home, timeline, skills, projects, achievements, blog
+from .components import navbar, home, timeline, skills, projects, achievements, blog
 
 # Set page config
 st.set_page_config(
