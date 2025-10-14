@@ -1,5 +1,6 @@
 import streamlit as st
 from streamlit_timeline import st_timeline
+# from streamlit_vis_timeline import st_timeline
 
 def get_timeline_data():
     """Return timeline data"""
