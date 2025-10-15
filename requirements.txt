@@ -9,7 +9,7 @@ altair
 matplotlib
 seaborn
 setuptools
-streamlit-vis-timeline
+streamlit-timeline
 streamlit-pdf
 pdfplumber
 pytesseract
